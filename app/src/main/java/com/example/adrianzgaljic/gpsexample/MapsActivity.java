@@ -3,6 +3,7 @@ package com.example.adrianzgaljic.gpsexample;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -16,12 +17,18 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
     private GoogleMap mMap;
+    private final int circleRadius = 20;
+    CircleOptions circleOptions=new CircleOptions();
+    Circle mapCircle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,19 +59,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        mMap.setMyLocationEnabled(true);
+        mMap.setMyLocationEnabled(false);
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String bestProvider = locationManager.getBestProvider(criteria, true);
         try {
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for Activity#requestPermissions for more details.
                 return;
             }
         }catch(Error e){
@@ -75,7 +75,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (location != null) {
             onLocationChanged(location);
         }
-        locationManager.requestLocationUpdates(bestProvider, 20000, 0, (android.location.LocationListener) this);
+        locationManager.requestLocationUpdates(bestProvider, 20000, 0,  this);
     }
 
     @Override
@@ -85,7 +85,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
         LatLng latLng = new LatLng(latitude, longitude);
-        mMap.addMarker(new MarkerOptions().position(latLng));
+        //mMap.addMarker(new MarkerOptions().position(latLng));
+        if(mapCircle!=null){
+            mapCircle.remove();
+        }
+
+        circleOptions.center(latLng).radius(circleRadius).fillColor(Color.RED).strokeWidth(1);
+        mapCircle = mMap.addCircle(circleOptions);
+
+
+       // mMap.addCircle(circleOptions);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         locationTv.setText("Latitude:" + latitude + ", Longitude:" + longitude);
