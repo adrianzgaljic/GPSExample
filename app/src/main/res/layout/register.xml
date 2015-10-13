@@ -41,9 +41,30 @@
         android:id="@+id/btnChoosePP" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:id="@+id/ivRegisterPP"
         android:layout_gravity="center_horizontal" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/layoutRotate"
+        android:visibility="invisible">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="rotate left"
+            android:id="@+id/btnRotateLeft" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="rotate right"
+            android:id="@+id/btnRotateRight" />
+    </LinearLayout>
 
 </LinearLayout>

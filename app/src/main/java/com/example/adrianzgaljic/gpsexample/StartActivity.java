@@ -22,7 +22,7 @@ public class StartActivity extends Activity {
 
         if (first.equals("created"))
         {
-            intent = new Intent(this, IntroActivity.class);
+            intent = new Intent(this, UserProfile.class);
             startActivity(intent);
         }
         else

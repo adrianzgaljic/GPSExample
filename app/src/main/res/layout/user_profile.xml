@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ivPP"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/tvHello"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentEnd="false"
+        android:gravity="center" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit "
+        android:id="@+id/textView"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/ivPP"
+        android:layout_toEndOf="@+id/ivPP"
+        android:layout_alignParentEnd="true"
+        android:gravity="center"
+        android:textColor="#0243c7" />
+
+
+</RelativeLayout>
