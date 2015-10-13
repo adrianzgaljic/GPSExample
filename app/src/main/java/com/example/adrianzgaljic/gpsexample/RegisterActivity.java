@@ -3,19 +3,39 @@ package com.example.adrianzgaljic.gpsexample;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
 /**
+ * Class that handles user registration.
+ *
  * Created by adrianzgaljic on 12/10/15.
  */
 public class RegisterActivity extends Activity {
 
+    // users name
     private String name;
+    // users surname
     private String surname;
+    // request code for photo picker intent
+    private static final int SELECT_PHOTO = 100;
+    // log TAG
+    public static final String TAG = "logIspis";
+    //iv that shows choosen PP
+    private ImageView ivRegisterPP;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -25,6 +45,20 @@ public class RegisterActivity extends Activity {
         final EditText etName = (EditText) findViewById(R.id.etName);
         final EditText etSurname = (EditText) findViewById(R.id.etSurname);
         Button btnRegister = (Button) findViewById(R.id.btnRegister);
+        Button btnChoosePP = (Button) findViewById(R.id.btnChoosePP);
+        ivRegisterPP = (ImageView) findViewById(R.id.ivPP);
+
+        btnChoosePP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                // Show only images, no videos or anything else
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                // Always show the chooser (if there are multiple options available)
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PHOTO);
+            }
+        });
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,7 +92,33 @@ public class RegisterActivity extends Activity {
 
 
 
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == SELECT_PHOTO && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+            Uri uri = data.getData();
+
+            try {
+                String uristr = uri.toString();
+
+                SharedPreferences prefs = getSharedPreferences("GPSExample", 0);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("PPImageURI",uristr);
+                editor.apply();
+
+                uri = Uri.parse(uristr);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                // Log.d(TAG, String.valueOf(bitmap));
+
+                ImageView imageView = (ImageView) findViewById(R.id.ivRegisterPP);
+                imageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
