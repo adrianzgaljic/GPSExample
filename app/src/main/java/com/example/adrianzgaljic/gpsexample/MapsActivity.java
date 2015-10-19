@@ -2,14 +2,23 @@ package com.example.adrianzgaljic.gpsexample;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.content.ClipData;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import android.location.LocationListener;
@@ -28,6 +37,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private final int circleRadius = 20;
     CircleOptions circleOptions=new CircleOptions();
     Circle mapCircle;
+    DrawerLayout mDrawer;
 
 
     @Override
@@ -38,6 +48,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        // Find our drawer view
+        NavigationView nvDrawer = (NavigationView) findViewById(R.id.nvView);
+        // Setup drawer view
+        setupDrawerContent(nvDrawer);
+        MenuItem item = nvDrawer.getMenu().getItem(0);
+        item.setTitle(UserInfo.username + "'s profile");
+
+
     }
 
 
@@ -114,5 +135,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+
+    private void setupDrawerContent(final NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        selectDrawerItem(menuItem);
+                        return true;
+                    }
+                });
+    }
+
+    public void selectDrawerItem(MenuItem menuItem) {
+        // Create a new fragment and specify the planet to show based on
+        // position
+        Fragment fragment = null;
+
+        Class fragmentClass = null;
+        switch(menuItem.getItemId()) {
+            case R.id.nav_first_fragment:
+                fragmentClass = UserProfile.class;
+                break;
+            case R.id.nav_second_fragment:
+                fragmentClass = FindFriends.class;
+                break;
+
+        }
+
+
+        menuItem.setChecked(true);
+        setTitle(menuItem.getTitle());
+        mDrawer.closeDrawers();
+        Intent stopwatchIntent = new Intent(MapsActivity.this, fragmentClass);
+        startActivity(stopwatchIntent);
     }
 }

@@ -33,6 +33,8 @@ import java.util.UUID;
  */
 public class RegisterActivity extends Activity {
 
+    // users nick
+    private String nick;
     // users name
     private String name;
     // users surname
@@ -57,6 +59,7 @@ public class RegisterActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
 
+        final EditText etNick = (EditText) findViewById(R.id.etNickname);
         final EditText etName = (EditText) findViewById(R.id.etName);
         final EditText etSurname = (EditText) findViewById(R.id.etSurname);
         Button btnRegister = (Button) findViewById(R.id.btnRegister);
@@ -106,10 +109,15 @@ public class RegisterActivity extends Activity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                nick = etNick.getText().toString();
                 name = etName.getText().toString();
                 surname = etSurname.getText().toString();
 
 
+                if (nick.equals("")){
+                    Toast.makeText(RegisterActivity.this,"Nick field empty",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (name.equals("")){
                     Toast.makeText(RegisterActivity.this,"Name field empty",Toast.LENGTH_SHORT).show();
                     return;
@@ -118,17 +126,11 @@ public class RegisterActivity extends Activity {
                     Toast.makeText(RegisterActivity.this,"Surname field empty",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String userID = createUserID();
 
-                SharedPreferences prefs = getSharedPreferences("GPSExample", 0);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("name",name);
-                editor.putString("surname",surname);
-                editor.putString("ID",userID);
-                editor.putString("created", "created");
-                editor.apply();
-                Intent intent = new Intent(RegisterActivity.this,UserProfile.class);
-                startActivity(intent);
+
+                new DBCreateUser(nick,name).execute();
+                //Intent intent = new Intent(RegisterActivity.this,UserProfile.class);
+                //startActivity(intent);
 
 
 

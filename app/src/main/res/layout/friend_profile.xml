@@ -13,7 +13,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/ivPP"
+            android:id="@+id/ivPPFriend"
             android:layout_gravity="center_horizontal" />
 
     </FrameLayout>
@@ -23,8 +23,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
-        android:id="@+id/tvUsername"
-        android:layout_marginTop="50dp"
+        android:id="@+id/tvUsernameFriend"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
         android:textSize="50dp" />
 
@@ -35,11 +35,11 @@
         android:text="pin color"
         android:id="@+id/textView"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="50dp"/>
+        android:layout_marginTop="30dp"/>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginTop="10dp">
@@ -47,11 +47,20 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:id="@+id/ivPoint"
+            android:id="@+id/ivPointFriend"
             android:background="@drawable/circle_blue"
             android:layout_gravity="center_horizontal" />
 
     </FrameLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add friend"
+        android:background="@drawable/btn_add_friend"
+        android:layout_marginTop="30dp"
+        android:id="@+id/btnAddFriend"
+        android:layout_gravity="center" />
 
 
 </LinearLayout>

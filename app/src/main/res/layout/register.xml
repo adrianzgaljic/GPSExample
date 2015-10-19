@@ -15,6 +15,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
+        android:hint="Nick"
+        android:ems="10"
+        android:id="@+id/etNickname"
+        android:layout_gravity="center_horizontal" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
         android:hint="Name"
         android:ems="10"
         android:id="@+id/etName"
