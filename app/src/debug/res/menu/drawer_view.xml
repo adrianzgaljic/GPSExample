@@ -11,5 +11,20 @@
             android:icon="@drawable/ic_search_black_36dp"
             android:title="Find friends" />
 
+        <item
+            android:id="@+id/nav_third_fragment"
+            android:icon="@drawable/ic_group_add_black_36dp"
+            android:title="Friend requests" />
+
+        <item
+            android:id="@+id/nav_fourth_fragment"
+            android:icon="@drawable/ic_group_black_36dp"
+            android:title="My friends" />
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_power_settings_new_black_36dp"
+            android:title="Log out" />
+
     </group>
 </menu>

@@ -70,7 +70,12 @@
         <activity
             android:name=".FriendProfile">
         </activity>
-
+        <activity
+            android:name=".FriendRequestsActivity">
+        </activity>
+        <activity
+            android:name=".MyFriendsActivity">
+        </activity>
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
     </application>
 

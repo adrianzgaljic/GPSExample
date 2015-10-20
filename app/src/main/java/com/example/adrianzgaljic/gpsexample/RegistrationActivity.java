@@ -56,7 +56,8 @@ public class RegistrationActivity  extends Activity{
                     Toast.makeText(RegistrationActivity.this,"Username allready exists",Toast.LENGTH_SHORT).show();
                     return;
                 } else if (checkUser.getResult().equals("0")){
-                    new DBCreateUser(username,pass).execute();
+                    link = "http://192.168.5.93:8080/android_connect/create_user.php?user="+username+"&pass="+pass;
+                    new DBCreateUser(link).execute();
                     UserInfo.username = username;
                     UserInfo.color = Color.BLUE;
                     UserInfo.profilePicture = BitmapFactory.decodeResource(RegistrationActivity.this.getResources(),

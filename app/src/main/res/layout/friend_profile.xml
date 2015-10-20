@@ -61,6 +61,15 @@
         android:layout_marginTop="30dp"
         android:id="@+id/btnAddFriend"
         android:layout_gravity="center" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reject"
+        android:background="@drawable/btn_delete_friend"
+        android:layout_marginTop="5dp"
+        android:id="@+id/btnReject"
+        android:layout_gravity="center"
+        android:visibility="invisible" />
 
 
 </LinearLayout>

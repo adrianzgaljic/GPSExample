@@ -3,6 +3,8 @@ package com.example.adrianzgaljic.gpsexample;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
+import java.util.ArrayList;
+
 /**
  * Created by adrianzgaljic on 17/10/15.
  */
@@ -14,6 +16,9 @@ public class UserInfo {
     public static String username;
     public static int color = Color.BLUE;
     public static Bitmap profilePicture;
+    public static ArrayList<String> friendRequests = new ArrayList<String>();
+    public static ArrayList<String> friends = new ArrayList<String>();
+
 
 
     public static UserInfo getUserInfo(){

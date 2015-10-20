@@ -20,17 +20,15 @@ package com.example.adrianzgaljic.gpsexample;
 
 public class DBCreateUser extends AsyncTask<String,Void,String> {
     private TextView statusField,roleField;
-    private String username;
-    private String pass;
+
+    private String link;
 
     public static String TAG = "logIspis";
 
     //flag 0 means get and 1 means post.(By default it is get.)
-    public DBCreateUser(String username, String pass) {
+    public DBCreateUser(String link) {
 
-
-        this.username = username;
-        this.pass = pass;
+        this.link = link;
 
 
     }
@@ -46,7 +44,7 @@ public class DBCreateUser extends AsyncTask<String,Void,String> {
         try{
 
 
-            String link = "http://192.168.5.93:8080/android_connect/create_user.php?user="+username+"&pass="+pass;
+
 
             HttpClient client;
             client = new DefaultHttpClient();

@@ -12,12 +12,17 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * Created by adrianzgaljic on 17/10/15.
  */
 public class LogInActivity  extends Activity{
 
     private  ProgressBar spinner;
+    public static final String TAG = "logIspis";
+
     @Override
     public void onCreate(Bundle savedInstanceState){
 
@@ -74,6 +79,8 @@ public class LogInActivity  extends Activity{
 
                         UserInfo.profilePicture = BitmapFactory.decodeResource(LogInActivity.this.getResources(),
                             R.drawable.default_pp);
+                        UserInfo.friendRequests = getFriendRequest(username);
+                        UserInfo.friends = getFriends(username);
                     Intent intent = new Intent(LogInActivity.this,MapsActivity.class);
                     startActivity(intent);
                 } else if (checkUser.getResult().equals("0")){
@@ -85,6 +92,32 @@ public class LogInActivity  extends Activity{
 
             }
         });
+
+    }
+
+    public ArrayList<String> getFriendRequest(String username){
+        ArrayList<String> requests = new ArrayList<String>();
+        String link = "http://192.168.5.93:8080/android_connect/find_requests.php?user=" + username;
+        DBCheckUser checkUser = new DBCheckUser(link);
+        checkUser.execute();
+        while (checkUser.getResult() == null) ;
+        String result = checkUser.getResult();
+        requests.addAll(Arrays.asList(checkUser.getResult().split("\\s+")));
+        Log.i(TAG, "result= " + result);
+        return requests;
+
+    }
+
+    public ArrayList<String> getFriends(String username){
+        ArrayList<String> requests = new ArrayList<String>();
+        String link = "http://192.168.5.93:8080/android_connect/get_friends.php?user=" + username;
+        DBCheckUser checkUser = new DBCheckUser(link);
+        checkUser.execute();
+        while (checkUser.getResult() == null) ;
+        String result = checkUser.getResult();
+        requests.addAll(Arrays.asList(checkUser.getResult().split("\\s+")));
+        Log.i(TAG,"result= "+result);
+        return requests;
 
     }
 }

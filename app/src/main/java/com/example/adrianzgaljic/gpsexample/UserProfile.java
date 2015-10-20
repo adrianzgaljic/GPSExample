@@ -3,9 +3,7 @@ package com.example.adrianzgaljic.gpsexample;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -25,6 +23,7 @@ import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by adrianzgaljic on 13/10/15.
@@ -36,6 +35,7 @@ public class UserProfile extends Activity {
     ImageView ivPoint;
     ImageView ivPP;
     String color = null;
+
 
 
     @Override

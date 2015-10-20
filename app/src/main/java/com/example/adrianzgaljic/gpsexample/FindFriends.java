@@ -1,11 +1,9 @@
 package com.example.adrianzgaljic.gpsexample;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -40,7 +38,7 @@ public class FindFriends extends Activity {
 
         array = new ArrayList<String>();
 
-        listView = (ListView) findViewById(R.id.listView);
+        listView = (ListView) findViewById(R.id.lvFriendsSearch);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, array);
         adapter.setNotifyOnChange(true);
         listView.setAdapter(adapter);
@@ -48,10 +46,23 @@ public class FindFriends extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedValue = (String) adapter.getItem(position);
-                Toast.makeText(FindFriends.this, selectedValue, Toast.LENGTH_SHORT).show();
+                String link = "http://192.168.5.93:8080/android_connect/get_color.php?user="+selectedValue;
+                DBCheckUser checkUser = new DBCheckUser(link);
+                checkUser.execute();
+                while (checkUser.getResult()==null);
                 Intent intent = new Intent(FindFriends.this, FriendProfile.class);
                 intent.putExtra("user", selectedValue);
-                intent.putExtra("color", Color.YELLOW);
+                if (checkUser.getResult().equals("red")){
+                    intent.putExtra("color", Color.RED);
+                } else if (checkUser.getResult().equals("green")){
+                    intent.putExtra("color", Color.GREEN);
+                } else if (checkUser.getResult().equals("yellow")){
+                    intent.putExtra("color", Color.YELLOW);
+                } else {
+                    intent.putExtra("color", Color.BLUE);
+                }
+                Toast.makeText(FindFriends.this, selectedValue, Toast.LENGTH_SHORT).show();
+                intent.putExtra("action", "add");
                 startActivity(intent);
             }
         });
@@ -69,6 +80,7 @@ public class FindFriends extends Activity {
                     checkUser.execute();
                     while (checkUser.getResult() == null) ;
                     tvResult.setText(checkUser.getResult());
+                    array.clear();
                     array.addAll(Arrays.asList(checkUser.getResult().split("\\s+")));
                     adapter.notifyDataSetChanged();
 

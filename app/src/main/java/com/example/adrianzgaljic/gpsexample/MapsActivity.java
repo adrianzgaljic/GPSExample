@@ -2,7 +2,6 @@ package com.example.adrianzgaljic.gpsexample;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -15,10 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import android.location.LocationListener;
@@ -30,6 +26,8 @@ import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
@@ -57,6 +55,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setupDrawerContent(nvDrawer);
         MenuItem item = nvDrawer.getMenu().getItem(0);
         item.setTitle(UserInfo.username + "'s profile");
+
+        int numberOfRequests = UserInfo.friendRequests.size();
+        item = nvDrawer.getMenu().getItem(2);
+        item.setTitle("Friend requests +" + numberOfRequests);
+
 
 
     }
@@ -160,6 +163,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 break;
             case R.id.nav_second_fragment:
                 fragmentClass = FindFriends.class;
+                break;
+            case R.id.nav_third_fragment:
+                fragmentClass = FriendRequestsActivity.class;
+                break;
+            case R.id.nav_fourth_fragment:
+                fragmentClass = MyFriendsActivity.class;
                 break;
 
         }
