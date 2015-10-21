@@ -5,6 +5,8 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
@@ -23,9 +25,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -101,6 +107,57 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             onLocationChanged(location);
         }
         locationManager.requestLocationUpdates(bestProvider, 20000, 0, this);
+
+
+        mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+
+            @Override
+            public void onCameraChange(CameraPosition pos) {
+                ArrayList<UserLocation> friendLocations = new ArrayList<UserLocation>();
+                try {
+                    friendLocations = LogInActivity.getFriendsLocations(UserInfo.username);
+                }catch (Exception e){
+
+                }
+
+                for (UserLocation userLoc: friendLocations) {
+                    String link = "http://192.168.5.93:8080/android_connect/get_color.php?user=" + userLoc.username;
+                    DBCheckUser checkUser = new DBCheckUser(link);
+                    checkUser.execute();
+                    while (checkUser.getResult() == null) ;
+                    int color = 0;
+
+                    BitmapDescriptor icon = null;
+                    Bitmap imageBitmap = null;
+                    if (checkUser.getResult().equals("red")) {
+                        color = Color.RED;
+                        imageBitmap = BitmapFactory.decodeResource(MapsActivity.this.getResources(),
+                                R.drawable.circle_red);
+                    } else if (checkUser.getResult().equals("green")) {
+                        color = Color.GREEN;
+                        imageBitmap = BitmapFactory.decodeResource(MapsActivity.this.getResources(),
+                                R.drawable.circle_green);
+                    } else if (checkUser.getResult().equals("yellow")) {
+                        color = Color.YELLOW;
+                        imageBitmap = BitmapFactory.decodeResource(MapsActivity.this.getResources(),
+                                R.drawable.circle_yellow);
+                    } else {
+                        color = Color.BLUE;
+                        imageBitmap = BitmapFactory.decodeResource(MapsActivity.this.getResources(),
+                                R.drawable.circle_blue);
+                    }
+                    Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, 20, 20, false);
+                    icon = BitmapDescriptorFactory.fromBitmap(resizedBitmap);
+                    LatLng latLng = new LatLng(userLoc.latitude, userLoc.longitude);
+                    //circleOptions.center(latLng).radius(circleRadius).fillColor(color).strokeWidth(1);
+                    //mapCircle = mMap.addCircle(circleOptions);
+                    mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .title(userLoc.username)
+                            .icon(icon));
+                }
+            }
+        });
     }
 
     @Override
@@ -123,8 +180,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         locationTv.setText("Latitude:" + latitude + ", Longitude:" + longitude);
+        DBUpdatePosition updateUser = new DBUpdatePosition(UserInfo.username,longitude,latitude);
+        updateUser.execute();
+
+
+
+
 
     }
+
+
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {

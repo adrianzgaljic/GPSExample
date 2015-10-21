@@ -6,8 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ListAdapter;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -51,8 +54,27 @@ public class FriendListAdapter extends BaseAdapter implements ListAdapter {
         TextView listItemText = (TextView)view.findViewById(R.id.list_item_string);
         listItemText.setText(list.get(position));
 
+        Switch swtchFriend = (Switch)view.findViewById(R.id.swtchFriends);
+        swtchFriend.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+
+                if (isChecked) {
+                    String link = "http://192.168.5.93:8080/android_connect/add_permission.php?user="+UserInfo.username+"&friend="+list.get(position);
+                    new DBCreateUser(link).execute();
+
+                } else {
+                    String link = "http://192.168.5.93:8080/android_connect/remove_permission.php?user="+UserInfo.username+"&friend="+list.get(position);
+                    new DBCreateUser(link).execute();
+                }
+
+            }
+        });
+
         //Handle buttons and add onClickListeners
-        Button deleteBtn = (Button)view.findViewById(R.id.btnHide);
+      /*  Button deleteBtn = (Button)view.findViewById(R.id.btnHide);
         Button addBtn = (Button)view.findViewById(R.id.btnShow);
 
         deleteBtn.setOnClickListener(new View.OnClickListener(){
@@ -70,7 +92,7 @@ public class FriendListAdapter extends BaseAdapter implements ListAdapter {
                 notifyDataSetChanged();
             }
         });
-
+*/
         return view;
     }
 }

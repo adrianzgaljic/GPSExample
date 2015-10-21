@@ -13,26 +13,16 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/btnHide"
+
+
+    <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Show my location"
+        android:id="@+id/swtchFriends"
+        android:layout_alignTop="@+id/list_item_string"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/btn_delete_friend"
-        android:text="Hide" />
-
-    <Button
-        android:id="@+id/btnShow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/btnHide"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/btn_add_friend"
-        android:text="Show" />
-
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>

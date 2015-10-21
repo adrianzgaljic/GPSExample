@@ -84,6 +84,7 @@ public class RegistrationActivity  extends Activity{
         btnProba.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 DBUpdateUser updateUser = new DBUpdateUser("ado","green");
                 updateUser.execute();
             }

@@ -125,4 +125,33 @@ public class LogInActivity  extends Activity{
         return requests;
 
     }
+
+    public static ArrayList<UserLocation> getFriendsLocations(String username){
+
+        ArrayList<String> friends = new ArrayList<String>();
+        String link = "http://192.168.5.93:8080/android_connect/get_permissions.php?user=" + username;
+        DBCheckUser checkUser = new DBCheckUser(link);
+        checkUser.execute();
+        while (checkUser.getResult() == null) ;
+
+        friends.addAll(Arrays.asList(checkUser.getResult().split("\\s+")));
+
+        ArrayList<UserLocation> friendLocations = new ArrayList<UserLocation>();
+        for (String user: friends) {
+            link = "http://192.168.5.93:8080/android_connect/get_position.php?user=" + user;
+            checkUser = new DBCheckUser(link);
+            checkUser.execute();
+            while (checkUser.getResult() == null) ;
+            ArrayList<String> positions = new ArrayList<String>();
+            positions.addAll(Arrays.asList(checkUser.getResult().split("\\s+")));
+            Double longitude = Double.parseDouble(positions.get(0));
+            Double latitude = Double.parseDouble(positions.get(1));
+            UserLocation userLocation = new UserLocation(user,longitude,latitude);
+            friendLocations.add(userLocation);
+
+        }
+        return  friendLocations;
+
+
+    }
 }
