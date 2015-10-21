@@ -3,6 +3,7 @@ package com.example.adrianzgaljic.gpsexample;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Criteria;
@@ -99,7 +100,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (location != null) {
             onLocationChanged(location);
         }
-        locationManager.requestLocationUpdates(bestProvider, 20000, 0,  this);
+        locationManager.requestLocationUpdates(bestProvider, 20000, 0, this);
     }
 
     @Override
@@ -170,6 +171,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             case R.id.nav_fourth_fragment:
                 fragmentClass = MyFriendsActivity.class;
                 break;
+            case R.id.nav_logout:
+                logOut();
+                fragmentClass = MainActivity.class;
+                break;
 
         }
 
@@ -180,4 +185,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Intent stopwatchIntent = new Intent(MapsActivity.this, fragmentClass);
         startActivity(stopwatchIntent);
     }
+
+    public void logOut(){
+        SharedPreferences prefs = getSharedPreferences("GPSExample", 0);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("username","");
+        editor.apply();
+    }
+
+
 }

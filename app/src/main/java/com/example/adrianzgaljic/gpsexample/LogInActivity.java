@@ -2,6 +2,7 @@ package com.example.adrianzgaljic.gpsexample;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -81,6 +82,10 @@ public class LogInActivity  extends Activity{
                             R.drawable.default_pp);
                         UserInfo.friendRequests = getFriendRequest(username);
                         UserInfo.friends = getFriends(username);
+                    SharedPreferences prefs = getSharedPreferences("GPSExample", 0);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("username",username);
+                    editor.apply();
                     Intent intent = new Intent(LogInActivity.this,MapsActivity.class);
                     startActivity(intent);
                 } else if (checkUser.getResult().equals("0")){
@@ -95,7 +100,7 @@ public class LogInActivity  extends Activity{
 
     }
 
-    public ArrayList<String> getFriendRequest(String username){
+    public static ArrayList<String> getFriendRequest(String username){
         ArrayList<String> requests = new ArrayList<String>();
         String link = "http://192.168.5.93:8080/android_connect/find_requests.php?user=" + username;
         DBCheckUser checkUser = new DBCheckUser(link);
@@ -108,7 +113,7 @@ public class LogInActivity  extends Activity{
 
     }
 
-    public ArrayList<String> getFriends(String username){
+    public static ArrayList<String> getFriends(String username){
         ArrayList<String> requests = new ArrayList<String>();
         String link = "http://192.168.5.93:8080/android_connect/get_friends.php?user=" + username;
         DBCheckUser checkUser = new DBCheckUser(link);

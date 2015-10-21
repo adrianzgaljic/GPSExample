@@ -2,6 +2,7 @@ package com.example.adrianzgaljic.gpsexample;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 /**
  * Created by adrianzgaljic on 17/10/15.
@@ -62,6 +65,12 @@ public class RegistrationActivity  extends Activity{
                     UserInfo.color = Color.BLUE;
                     UserInfo.profilePicture = BitmapFactory.decodeResource(RegistrationActivity.this.getResources(),
                             R.drawable.default_pp);
+                    UserInfo.friendRequests = new ArrayList<String>();
+                    UserInfo.friends = new ArrayList<String>();
+                    SharedPreferences prefs = getSharedPreferences("GPSExample", 0);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("username",username);
+                    editor.apply();
                     Intent intent = new Intent(RegistrationActivity.this,MapsActivity.class);
                     startActivity(intent);
                 } else {

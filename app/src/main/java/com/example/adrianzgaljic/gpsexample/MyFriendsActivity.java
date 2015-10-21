@@ -30,9 +30,11 @@ public class MyFriendsActivity extends Activity {
         array = UserInfo.friends;
 
         listView = (ListView) findViewById(R.id.lvFriends);
+        FriendListAdapter friendListAdapter = new FriendListAdapter(array,this);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, array);
         adapter.setNotifyOnChange(true);
-        listView.setAdapter(adapter);
+        listView.setAdapter(friendListAdapter);
+        //listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
