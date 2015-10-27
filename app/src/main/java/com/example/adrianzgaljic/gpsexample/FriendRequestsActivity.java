@@ -27,7 +27,7 @@ public class FriendRequestsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_requests);
         array = new ArrayList<String>();
-        array = UserInfo.friendRequests;
+        array = UserInfo.getFriendRequests();
 
         listView = (ListView) findViewById(R.id.lvFriendsRequests);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, array);

@@ -27,7 +27,7 @@ public class MyFriendsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_friends);
         array = new ArrayList<String>();
-        array = UserInfo.friends;
+        array = UserInfo.getFriends();
 
         listView = (ListView) findViewById(R.id.lvFriends);
         FriendListAdapter friendListAdapter = new FriendListAdapter(array,this);

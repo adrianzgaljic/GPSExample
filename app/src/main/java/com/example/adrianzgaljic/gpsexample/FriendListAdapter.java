@@ -62,11 +62,11 @@ public class FriendListAdapter extends BaseAdapter implements ListAdapter {
                                          boolean isChecked) {
 
                 if (isChecked) {
-                    String link = "http://192.168.5.93:8080/android_connect/add_permission.php?user="+UserInfo.username+"&friend="+list.get(position);
+                    String link = "http://192.168.5.93:8080/android_connect/add_permission.php?user="+UserInfo.getUsername()+"&friend="+list.get(position);
                     new DBCreateUser(link).execute();
 
                 } else {
-                    String link = "http://192.168.5.93:8080/android_connect/remove_permission.php?user="+UserInfo.username+"&friend="+list.get(position);
+                    String link = "http://192.168.5.93:8080/android_connect/remove_permission.php?user="+UserInfo.getUsername()+"&friend="+list.get(position);
                     new DBCreateUser(link).execute();
                 }
 

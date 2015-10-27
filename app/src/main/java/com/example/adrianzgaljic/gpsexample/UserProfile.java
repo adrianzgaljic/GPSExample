@@ -32,9 +32,9 @@ public class UserProfile extends Activity {
 
     // log TAG
     public static final String TAG = "logIspis";
-    ImageView ivPoint;
-    ImageView ivPP;
-    String color = null;
+    private ImageView ivPoint;
+    private ImageView ivPP;
+    private String color = null;
 
 
 
@@ -46,10 +46,10 @@ public class UserProfile extends Activity {
 
         TextView etHi = (TextView) findViewById(R.id.tvUsername);
         ivPP = (ImageView) findViewById(R.id.ivPP);
-        etHi.setText(UserInfo.username);
+        etHi.setText(UserInfo.getUsername());
 
         ivPoint = (ImageView) findViewById(R.id.ivPoint);
-        switch (UserInfo.color){
+        switch (UserInfo.getColor()){
             case (Color.BLUE):
                 ivPoint.setImageResource(R.drawable.circle_blue);
                 color = "blue";
@@ -87,9 +87,9 @@ public class UserProfile extends Activity {
                     @Override
                     public void onClick(View v) {
                         ivPoint.setImageResource(R.drawable.circle_blue);
-                        UserInfo.color = Color.BLUE;
+                        UserInfo.setColor(Color.BLUE);
                         color = "blue";
-                        DBUpdateUser updateUser = new DBUpdateUser(UserInfo.username,color);
+                        DBUpdateUser updateUser = new DBUpdateUser(UserInfo.getUsername(),color);
                         updateUser.execute();
                         dialog.dismiss();
                     }
@@ -99,9 +99,9 @@ public class UserProfile extends Activity {
                     @Override
                     public void onClick(View v) {
                         ivPoint.setImageResource(R.drawable.circle_red);
-                        UserInfo.color = Color.RED;
+                        UserInfo.setColor(Color.RED);
                         color = "red";
-                        DBUpdateUser updateUser = new DBUpdateUser(UserInfo.username,color);
+                        DBUpdateUser updateUser = new DBUpdateUser(UserInfo.getUsername(),color);
                         updateUser.execute();
                         dialog.dismiss();
                     }
@@ -111,9 +111,9 @@ public class UserProfile extends Activity {
                     @Override
                     public void onClick(View v) {
                         ivPoint.setImageResource(R.drawable.circle_yellow);
-                        UserInfo.color = Color.YELLOW;
+                        UserInfo.setColor(Color.YELLOW);
                         color = "yellow";
-                        DBUpdateUser updateUser = new DBUpdateUser(UserInfo.username,color);
+                        DBUpdateUser updateUser = new DBUpdateUser(UserInfo.getUsername(),color);
                         updateUser.execute();
                         dialog.dismiss();
                     }
@@ -123,9 +123,9 @@ public class UserProfile extends Activity {
                     @Override
                     public void onClick(View v) {
                         ivPoint.setImageResource(R.drawable.circle_green);
-                        UserInfo.color = Color.GREEN;
+                        UserInfo.setColor(Color.GREEN);
                         color = "green";
-                        DBUpdateUser updateUser = new DBUpdateUser(UserInfo.username, color);
+                        DBUpdateUser updateUser = new DBUpdateUser(UserInfo.getUsername(), color);
                         updateUser.execute();
                         dialog.dismiss();
                     }
@@ -153,7 +153,7 @@ public class UserProfile extends Activity {
 */
         try {
 
-            Bitmap circleBitmap = getCroppedBitmap(UserInfo.profilePicture);
+            Bitmap circleBitmap = getCroppedBitmap(UserInfo.getProfilePicture());
             ivPP.setImageBitmap(circleBitmap);
         } catch(Exception e){
             Log.e(TAG, "Could not find photo " + e);

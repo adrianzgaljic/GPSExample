@@ -57,7 +57,7 @@ public class FriendProfile extends Activity {
             btnAddFriend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String link = "http://192.168.5.93:8080/android_connect/send_request.php?user="+UserInfo.username+"&friend="+user;
+                    String link = "http://192.168.5.93:8080/android_connect/send_request.php?user="+UserInfo.getUsername()+"&friend="+user;
                     new DBCreateUser(link).execute();
                     Toast.makeText(FriendProfile.this,"Friend request sent",Toast.LENGTH_SHORT).show();
                 }
@@ -69,9 +69,9 @@ public class FriendProfile extends Activity {
                 public void onClick(View v) {
                     btnAddFriend.setVisibility(View.INVISIBLE);
                     btnReject.setVisibility(View.INVISIBLE);
-                    String link = "http://192.168.5.93:8080/android_connect/delete_request.php?user="+UserInfo.username+"&friend="+user;
+                    String link = "http://192.168.5.93:8080/android_connect/delete_request.php?user="+UserInfo.getUsername()+"&friend="+user;
                     new DBCreateUser(link).execute();
-                    UserInfo.friendRequests.remove(user);
+                    UserInfo.getFriendRequests().remove(user);
                     Toast.makeText(FriendProfile.this,"User rejected",Toast.LENGTH_SHORT).show();
                 }
             });
@@ -79,14 +79,14 @@ public class FriendProfile extends Activity {
             btnAddFriend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String link = "http://192.168.5.93:8080/android_connect/make_friends.php?user="+UserInfo.username+"&friend="+user;
+                    String link = "http://192.168.5.93:8080/android_connect/make_friends.php?user="+UserInfo.getUsername()+"&friend="+user;
                     new DBCreateUser(link).execute();
-                    link = "http://192.168.5.93:8080/android_connect/delete_request.php?user="+UserInfo.username+"&friend="+user;
+                    link = "http://192.168.5.93:8080/android_connect/delete_request.php?user="+UserInfo.getUsername()+"&friend="+user;
                     new DBCreateUser(link).execute();
-                    UserInfo.friendRequests.remove(user);
+                    UserInfo.getFriendRequests().remove(user);
                     btnAddFriend.setVisibility(View.INVISIBLE);
                     btnReject.setVisibility(View.INVISIBLE);
-                    UserInfo.friends.add(user);
+                    UserInfo.getFriends().add(user);
                     Toast.makeText(FriendProfile.this,"You and "+user+" are now friends",Toast.LENGTH_SHORT).show();
                 }
             });

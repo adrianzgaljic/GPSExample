@@ -61,12 +61,12 @@ public class RegistrationActivity  extends Activity{
                 } else if (checkUser.getResult().equals("0")){
                     link = "http://192.168.5.93:8080/android_connect/create_user.php?user="+username+"&pass="+pass;
                     new DBCreateUser(link).execute();
-                    UserInfo.username = username;
-                    UserInfo.color = Color.BLUE;
-                    UserInfo.profilePicture = BitmapFactory.decodeResource(RegistrationActivity.this.getResources(),
-                            R.drawable.default_pp);
-                    UserInfo.friendRequests = new ArrayList<String>();
-                    UserInfo.friends = new ArrayList<String>();
+                    UserInfo.setUsername(username);
+                    UserInfo.setColor(Color.BLUE);
+                    UserInfo.setProfilePicture(BitmapFactory.decodeResource(RegistrationActivity.this.getResources(),
+                            R.drawable.default_pp));
+                    UserInfo.setFriendRequests(new ArrayList<String>());
+                    UserInfo.setFriends(new ArrayList<String>());
                     SharedPreferences prefs = getSharedPreferences("GPSExample", 0);
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putString("username",username);

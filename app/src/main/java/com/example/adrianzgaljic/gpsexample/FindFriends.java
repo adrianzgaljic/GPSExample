@@ -22,10 +22,10 @@ import java.util.Arrays;
 public class FindFriends extends Activity {
 
 
-    ArrayAdapter<String> adapter;
+    private ArrayAdapter<String> adapter;
     public static final String TAG = "logIspis";
-    ListView  listView;
-    ArrayList<String> array;
+    private ListView  listView;
+    private ArrayList<String> friendsSearchResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +36,16 @@ public class FindFriends extends Activity {
         Button btnSearch = (Button) findViewById(R.id.btnSearch);
         final TextView tvResult = (TextView) findViewById(R.id.tvResults);
 
-        array = new ArrayList<String>();
+        friendsSearchResult = new ArrayList<String>();
 
         listView = (ListView) findViewById(R.id.lvFriendsSearch);
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, array);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, friendsSearchResult);
         adapter.setNotifyOnChange(true);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedValue = (String) adapter.getItem(position);
+                String selectedValue = adapter.getItem(position);
                 String link = "http://192.168.5.93:8080/android_connect/get_color.php?user="+selectedValue;
                 DBCheckUser checkUser = new DBCheckUser(link);
                 checkUser.execute();
@@ -80,8 +80,8 @@ public class FindFriends extends Activity {
                     checkUser.execute();
                     while (checkUser.getResult() == null) ;
                     tvResult.setText(checkUser.getResult());
-                    array.clear();
-                    array.addAll(Arrays.asList(checkUser.getResult().split("\\s+")));
+                    friendsSearchResult.clear();
+                    friendsSearchResult.addAll(Arrays.asList(checkUser.getResult().split("\\s+")));
                     adapter.notifyDataSetChanged();
 
 

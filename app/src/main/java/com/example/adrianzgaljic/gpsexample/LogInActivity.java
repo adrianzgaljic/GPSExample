@@ -67,21 +67,21 @@ public class LogInActivity  extends Activity{
                     checkUser.execute();
                     while (checkUser.getResult()==null);
                     Toast.makeText(LogInActivity.this,"success",Toast.LENGTH_SHORT).show();
-                    UserInfo.username = username;
+                    UserInfo.setUsername(username);
                     if (checkUser.getResult().equals("red")){
-                        UserInfo.color = Color.RED;
+                        UserInfo.setColor(Color.RED);
                     } else if (checkUser.getResult().equals("green")){
-                        UserInfo.color = Color.GREEN;
+                        UserInfo.setColor(Color.GREEN);
                     } else if (checkUser.getResult().equals("yellow")){
-                        UserInfo.color = Color.YELLOW;
+                        UserInfo.setColor(Color.YELLOW);
                     } else {
-                        UserInfo.color = Color.BLUE;
+                        UserInfo.setColor(Color.BLUE);
                     }
 
-                        UserInfo.profilePicture = BitmapFactory.decodeResource(LogInActivity.this.getResources(),
-                            R.drawable.default_pp);
-                        UserInfo.friendRequests = getFriendRequest(username);
-                        UserInfo.friends = getFriends(username);
+                        UserInfo.setProfilePicture(BitmapFactory.decodeResource(LogInActivity.this.getResources(),
+                            R.drawable.default_pp));
+                        UserInfo.setFriendRequests(getFriendRequest(username));
+                        UserInfo.setFriends(getFriends(username));
                     SharedPreferences prefs = getSharedPreferences("GPSExample", 0);
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putString("username",username);

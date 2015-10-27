@@ -34,21 +34,21 @@ public class StartActivity extends Activity {
             checkUser.execute();
             while (checkUser.getResult()==null);
 
-            UserInfo.username = username;
+            UserInfo.setUsername(username);
             if (checkUser.getResult().equals("red")){
-                UserInfo.color = Color.RED;
+                UserInfo.setColor(Color.RED);
             } else if (checkUser.getResult().equals("green")){
-                UserInfo.color = Color.GREEN;
+                UserInfo.setColor(Color.GREEN);
             } else if (checkUser.getResult().equals("yellow")){
-                UserInfo.color = Color.YELLOW;
+                UserInfo.setColor(Color.YELLOW);
             } else {
-                UserInfo.color = Color.BLUE;
+                UserInfo.setColor(Color.BLUE);
             }
 
-            UserInfo.profilePicture = BitmapFactory.decodeResource(StartActivity.this.getResources(),
-                    R.drawable.default_pp);
-            UserInfo.friendRequests = LogInActivity.getFriendRequest(username);
-            UserInfo.friends = LogInActivity.getFriends(username);
+            UserInfo.setProfilePicture(BitmapFactory.decodeResource(StartActivity.this.getResources(),
+                    R.drawable.default_pp));
+            UserInfo.setFriendRequests(LogInActivity.getFriendRequest(username));
+            UserInfo.setFriends(LogInActivity.getFriends(username));
             //First Time App launched, you are putting isInitialAppLaunch to false and calling create password activity.
             intent = new Intent(this, MapsActivity.class);
             startActivity(intent);

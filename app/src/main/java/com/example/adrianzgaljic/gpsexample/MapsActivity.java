@@ -12,12 +12,15 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import android.location.LocationListener;
@@ -35,14 +38,19 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
     private GoogleMap mMap;
-    private final int circleRadius = 20;
-    CircleOptions circleOptions=new CircleOptions();
-    Circle mapCircle;
+    Marker myMarker;
+    BitmapDescriptor myIcon;
+    int myColor;
+    LatLng myLatLng;
     DrawerLayout mDrawer;
+    ArrayList<UserLocation> friendLocations = new ArrayList<UserLocation>();
+    Map<String, Marker> friendsMarkers = new HashMap<String, Marker>();
 
 
     @Override
@@ -61,14 +69,47 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Setup drawer view
         setupDrawerContent(nvDrawer);
         MenuItem item = nvDrawer.getMenu().getItem(0);
-        item.setTitle(UserInfo.username + "'s profile");
+        item.setTitle(UserInfo.getUsername() + "'s profile");
 
-        int numberOfRequests = UserInfo.friendRequests.size();
+        int numberOfRequests = UserInfo.getFriendRequests().size();
         item = nvDrawer.getMenu().getItem(2);
         item.setTitle("Friend requests +" + numberOfRequests);
+        /*
+        setMyIconColor();
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawFriendsOnMap();
+            }
+        });
+*/
 
 
+    }
 
+    private void setMyIconColor() {
+
+        Bitmap imageBitmap;
+        if (UserInfo.getColor() == Color.RED) {
+            imageBitmap = BitmapFactory.decodeResource(MapsActivity.this.getResources(),
+                    R.drawable.circle_red);
+            myColor = Color.RED;
+        } else if (UserInfo.getColor() == Color.GREEN){
+            imageBitmap = BitmapFactory.decodeResource(MapsActivity.this.getResources(),
+                    R.drawable.circle_green);
+            myColor = Color.GREEN;
+        } else if (UserInfo.getColor() == Color.YELLOW) {
+            imageBitmap = BitmapFactory.decodeResource(MapsActivity.this.getResources(),
+                    R.drawable.circle_yellow);
+            myColor = Color.YELLOW;
+        } else {
+            imageBitmap = BitmapFactory.decodeResource(MapsActivity.this.getResources(),
+                    R.drawable.circle_blue);
+            myColor = Color.BLUE;
+        }
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, 20, 20, false);
+        myIcon = BitmapDescriptorFactory.fromBitmap(resizedBitmap);
     }
 
 
@@ -84,12 +125,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap = googleMap;
         mMap.setMyLocationEnabled(false);
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Criteria criteria = new Criteria();
@@ -107,57 +144,75 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             onLocationChanged(location);
         }
         locationManager.requestLocationUpdates(bestProvider, 20000, 0, this);
+        //drawFriendsOnMap();
 
 
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
 
             @Override
             public void onCameraChange(CameraPosition pos) {
-                ArrayList<UserLocation> friendLocations = new ArrayList<UserLocation>();
-                try {
-                    friendLocations = LogInActivity.getFriendsLocations(UserInfo.username);
-                }catch (Exception e){
 
-                }
 
-                for (UserLocation userLoc: friendLocations) {
-                    String link = "http://192.168.5.93:8080/android_connect/get_color.php?user=" + userLoc.username;
-                    DBCheckUser checkUser = new DBCheckUser(link);
-                    checkUser.execute();
-                    while (checkUser.getResult() == null) ;
-                    int color = 0;
 
-                    BitmapDescriptor icon = null;
-                    Bitmap imageBitmap = null;
-                    if (checkUser.getResult().equals("red")) {
-                        color = Color.RED;
-                        imageBitmap = BitmapFactory.decodeResource(MapsActivity.this.getResources(),
-                                R.drawable.circle_red);
-                    } else if (checkUser.getResult().equals("green")) {
-                        color = Color.GREEN;
-                        imageBitmap = BitmapFactory.decodeResource(MapsActivity.this.getResources(),
-                                R.drawable.circle_green);
-                    } else if (checkUser.getResult().equals("yellow")) {
-                        color = Color.YELLOW;
-                        imageBitmap = BitmapFactory.decodeResource(MapsActivity.this.getResources(),
-                                R.drawable.circle_yellow);
-                    } else {
-                        color = Color.BLUE;
-                        imageBitmap = BitmapFactory.decodeResource(MapsActivity.this.getResources(),
-                                R.drawable.circle_blue);
+                if(myMarker!=null){
+                    myMarker.remove();
+                    if (myColor != UserInfo.getColor()){
+                        setMyIconColor();
                     }
-                    Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, 20, 20, false);
-                    icon = BitmapDescriptorFactory.fromBitmap(resizedBitmap);
-                    LatLng latLng = new LatLng(userLoc.latitude, userLoc.longitude);
-                    //circleOptions.center(latLng).radius(circleRadius).fillColor(color).strokeWidth(1);
-                    //mapCircle = mMap.addCircle(circleOptions);
-                    mMap.addMarker(new MarkerOptions()
-                            .position(latLng)
-                            .title(userLoc.username)
-                            .icon(icon));
                 }
+
+                myMarker = mMap.addMarker(new MarkerOptions()
+                        .position(myLatLng)
+                        .title(UserInfo.getUsername())
+                        .icon(myIcon));
+
+
             }
         });
+    }
+
+    private void drawFriendsOnMap() {
+        try {
+            friendLocations = LogInActivity.getFriendsLocations(UserInfo.getUsername());
+        }catch (Exception e){
+
+        }
+
+        for (UserLocation friend: friendLocations) {
+            String link = "http://192.168.5.93:8080/android_connect/get_color.php?user=" + friend.getUsername();
+            DBCheckUser checkUser = new DBCheckUser(link);
+            checkUser.execute();
+            while (checkUser.getResult() == null) ;
+
+
+            BitmapDescriptor icon;
+            Bitmap imageBitmap;
+            if (checkUser.getResult().equals("red")) {
+                imageBitmap = BitmapFactory.decodeResource(MapsActivity.this.getResources(),
+                        R.drawable.circle_red);
+            } else if (checkUser.getResult().equals("green")) {
+                imageBitmap = BitmapFactory.decodeResource(MapsActivity.this.getResources(),
+                        R.drawable.circle_green);
+            } else if (checkUser.getResult().equals("yellow")) {
+                imageBitmap = BitmapFactory.decodeResource(MapsActivity.this.getResources(),
+                        R.drawable.circle_yellow);
+            } else {
+                imageBitmap = BitmapFactory.decodeResource(MapsActivity.this.getResources(),
+                        R.drawable.circle_blue);
+            }
+            Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, 20, 20, false);
+            icon = BitmapDescriptorFactory.fromBitmap(resizedBitmap);
+            LatLng latLng = new LatLng(friend.getLatitude(), friend.getLongitude());
+
+            if(friendsMarkers.containsKey(friend.getUsername())){
+                friendsMarkers.get(friend.getUsername()).remove();
+            }
+            Marker friendMarker = mMap.addMarker(new MarkerOptions()
+                    .position(latLng)
+                    .title(friend.getUsername())
+                    .icon(icon));
+            friendsMarkers.put(friend.getUsername(),friendMarker);
+        }
     }
 
     @Override
@@ -166,26 +221,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         TextView locationTv = (TextView) findViewById(R.id.tvLocation);
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
-        LatLng latLng = new LatLng(latitude, longitude);
-        //mMap.addMarker(new MarkerOptions().position(latLng));
-        if(mapCircle!=null){
-            mapCircle.remove();
-        }
-
-        circleOptions.center(latLng).radius(circleRadius).fillColor(Color.RED).strokeWidth(1);
-        mapCircle = mMap.addCircle(circleOptions);
+        myLatLng = new LatLng(latitude, longitude);
 
 
-       // mMap.addCircle(circleOptions);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(myLatLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-        locationTv.setText("Latitude:" + latitude + ", Longitude:" + longitude);
-        DBUpdatePosition updateUser = new DBUpdatePosition(UserInfo.username,longitude,latitude);
+        //locationTv.setText("Latitude:" + latitude + ", Longitude:" + longitude);
+        DBUpdatePosition updateUser = new DBUpdatePosition(UserInfo.getUsername(),longitude,latitude);
         updateUser.execute();
-
-
-
-
 
     }
 
