@@ -23,6 +23,8 @@ public class RegistrationActivity  extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        UserInfo.reset();
+
         final EditText etUsername = (EditText) findViewById(R.id.etUsername);
         final EditText etPass = (EditText) findViewById(R.id.etPassword);
         final EditText etConfirmPass = (EditText) findViewById(R.id.etConfirmPassword);
@@ -55,6 +57,9 @@ public class RegistrationActivity  extends Activity{
                 DBCheckUser checkUser = new DBCheckUser(link);
                 checkUser.execute();
                 while (checkUser.getResult()==null);
+                if (checkUser.getResult().equals("false")){
+                    Toast.makeText(RegistrationActivity.this,"Unable to connect server",Toast.LENGTH_SHORT).show();
+                }
                 if (checkUser.getResult().equals("1")){
                     Toast.makeText(RegistrationActivity.this,"Username allready exists",Toast.LENGTH_SHORT).show();
                     return;
@@ -80,15 +85,7 @@ public class RegistrationActivity  extends Activity{
             }
         });
 
-        Button btnProba = (Button) findViewById(R.id.btnProba);
-        btnProba.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                DBUpdateUser updateUser = new DBUpdateUser("ado","green");
-                updateUser.execute();
-            }
-        });
 
 
     }

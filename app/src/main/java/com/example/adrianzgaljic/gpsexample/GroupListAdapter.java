@@ -20,13 +20,13 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class FriendListAdapter extends BaseAdapter implements ListAdapter {
+public class GroupListAdapter extends BaseAdapter implements ListAdapter {
     private ArrayList<String> list = new ArrayList<String>();
     private Context context;
 
 
 
-    public FriendListAdapter(ArrayList<String> list, Context context) {
+    public GroupListAdapter(ArrayList<String> list, Context context) {
         this.list = list;
         this.context = context;
     }

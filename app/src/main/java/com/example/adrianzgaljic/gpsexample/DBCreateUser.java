@@ -3,8 +3,10 @@ package com.example.adrianzgaljic.gpsexample;
 
 
         import java.io.BufferedReader;
+        import java.io.IOException;
         import java.io.InputStreamReader;
 
+        import java.net.HttpURLConnection;
         import java.net.URI;
         import java.net.URL;
 
@@ -43,7 +45,9 @@ public class DBCreateUser extends AsyncTask<String,Void,String> {
 
         try{
 
-
+            if (!testURL()){
+                return "false";
+            }
 
 
             HttpClient client;
@@ -74,5 +78,26 @@ public class DBCreateUser extends AsyncTask<String,Void,String> {
     @Override
     protected void onPostExecute(String result){
 
+    }
+
+    public boolean testURL() throws Exception {
+
+
+        try {
+            Log.i(TAG,"dbcreate "+link);
+            URL url = new URL(link);
+            HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
+            urlConn.connect();
+            if (urlConn.getResponseCode() == HttpURLConnection.HTTP_OK){
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (IOException e) {
+            System.err.println("Error creating HTTP connection");
+            e.printStackTrace();
+            return false;
+        }
     }
 }

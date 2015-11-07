@@ -18,6 +18,42 @@ public class UserInfo {
     private static Bitmap profilePicture;
     private static ArrayList<String> friendRequests = new ArrayList<String>();
     private static ArrayList<String> friends = new ArrayList<String>();
+    private static ArrayList<String> sentRequests = new ArrayList<String>();
+    private static ArrayList<String> rejectedFriends = new ArrayList<String>();
+    private static ArrayList<Group> groups = new ArrayList<>();
+
+    public static void setUserInfo(UserInfo userInfo) {
+        UserInfo.userInfo = userInfo;
+    }
+
+    public static ArrayList<Group> getGroups() {
+        return groups;
+    }
+
+    public static void setGroups(ArrayList<Group> groups) {
+        UserInfo.groups = groups;
+    }
+
+
+    public static ArrayList<String> getRejectedFriends() {
+        return rejectedFriends;
+    }
+
+    public static void setRejectedFriends(ArrayList<String> rejectedFriends) {
+        UserInfo.rejectedFriends = rejectedFriends;
+    }
+
+
+
+    public static ArrayList<String> getSentRequests() {
+        return sentRequests;
+    }
+
+    public static void setSentRequests(ArrayList<String> sentRequests) {
+        UserInfo.sentRequests = sentRequests;
+    }
+
+
 
     public static UserInfo getUserInfo(){
         return userInfo;
@@ -61,6 +97,13 @@ public class UserInfo {
 
     public static void setFriends(ArrayList<String> friends) {
         UserInfo.friends = friends;
+    }
+
+    public static void reset(){
+        friendRequests.clear();
+        friends.clear();
+        sentRequests.clear();
+        rejectedFriends.clear();
     }
 
 

@@ -30,6 +30,8 @@ public class LogInActivity  extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        UserInfo.reset();
+
 
         spinner = (ProgressBar)findViewById(R.id.progressBar);
         spinner.setVisibility(View.GONE);
@@ -61,6 +63,9 @@ public class LogInActivity  extends Activity{
                 checkUser.execute();
                 while (checkUser.getResult()==null);
                 spinner.setVisibility(View.GONE);
+                if (checkUser.getResult().equals("false")){
+                    Toast.makeText(LogInActivity.this,"Unable to connect server",Toast.LENGTH_SHORT).show();
+                }
                 if (checkUser.getResult().equals("1")){
                     link = "http://192.168.5.93:8080/android_connect/get_color.php?user="+username;
                     checkUser = new DBCheckUser(link);
@@ -82,6 +87,7 @@ public class LogInActivity  extends Activity{
                             R.drawable.default_pp));
                         UserInfo.setFriendRequests(getFriendRequest(username));
                         UserInfo.setFriends(getFriends(username));
+                        UserInfo.setSentRequests(getSentFriendRequest(username));
                     SharedPreferences prefs = getSharedPreferences("GPSExample", 0);
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putString("username",username);
@@ -108,21 +114,34 @@ public class LogInActivity  extends Activity{
         while (checkUser.getResult() == null) ;
         String result = checkUser.getResult();
         requests.addAll(Arrays.asList(checkUser.getResult().split("\\s+")));
-        Log.i(TAG, "result= " + result);
+        requests.remove("");
         return requests;
 
     }
 
-    public static ArrayList<String> getFriends(String username){
+    public static ArrayList<String> getSentFriendRequest(String username){
         ArrayList<String> requests = new ArrayList<String>();
-        String link = "http://192.168.5.93:8080/android_connect/get_friends.php?user=" + username;
+        String link = "http://192.168.5.93:8080/android_connect/get_sent_requests.php?user=" + username;
         DBCheckUser checkUser = new DBCheckUser(link);
         checkUser.execute();
         while (checkUser.getResult() == null) ;
         String result = checkUser.getResult();
         requests.addAll(Arrays.asList(checkUser.getResult().split("\\s+")));
-        Log.i(TAG,"result= "+result);
+        requests.remove("");
         return requests;
+
+    }
+
+    public static ArrayList<String> getFriends(String username){
+        ArrayList<String> friends = new ArrayList<String>();
+        String link = "http://192.168.5.93:8080/android_connect/get_friends.php?user=" + username;
+        DBCheckUser checkUser = new DBCheckUser(link);
+        checkUser.execute();
+        while (checkUser.getResult() == null) ;
+        String result = checkUser.getResult();
+        friends.addAll(Arrays.asList(checkUser.getResult().split("\\s+")));
+        friends.remove("");
+        return friends;
 
     }
 

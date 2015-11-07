@@ -55,9 +55,6 @@ public class DBUpdateUser extends AsyncTask<String,Void,String> {
         try {
 
 
-            String link = "http://192.168.5.93:8080/android_connect/create_user.php?pass=pssss";
-
-
             ArrayList<NameValuePair> pairs = new ArrayList<NameValuePair>();
 
 
