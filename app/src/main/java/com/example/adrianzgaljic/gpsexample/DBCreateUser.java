@@ -45,6 +45,8 @@ public class DBCreateUser extends AsyncTask<String,Void,String> {
 
         try{
 
+            
+
             if (!testURL()){
                 return "false";
             }

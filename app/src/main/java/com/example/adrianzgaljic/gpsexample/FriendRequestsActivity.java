@@ -37,7 +37,7 @@ public class FriendRequestsActivity extends AppCompatActivity {
     private DrawerLayout mDrawer;
     private TextView tvInfoRecived;
     private  TextView tvInfoSent;
-
+    private String address="http://192.168.5.84:80";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +78,7 @@ public class FriendRequestsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedValue = (String) adapterRecived.getItem(position);
-                String link = "http://192.168.5.93:8080/android_connect/get_color.php?user=" + selectedValue;
+                String link = address+"/android_connect/get_color.php?user=" + selectedValue;
                 DBCheckUser checkUser = new DBCheckUser(link);
                 checkUser.execute();
                 while (checkUser.getResult() == null) ;
@@ -118,7 +118,7 @@ public class FriendRequestsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedValue = (String) adapterSent.getItem(position);
-                String link = "http://192.168.5.93:8080/android_connect/get_color.php?user=" + selectedValue;
+                String link = address+"/android_connect/get_color.php?user=" + selectedValue;
                 DBCheckUser checkUser = new DBCheckUser(link);
                 checkUser.execute();
                 while (checkUser.getResult() == null) ;

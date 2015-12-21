@@ -54,6 +54,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static final String TAG = "logIspis";
     private final int ZOOM_DISTANCE = 30;
     private Toolbar toolbar;
+    public static String address="http://192.168.5.84:80";
 
     ArrayList<UserLocation> friendLocations = new ArrayList<UserLocation>();
     Map<String, Marker> friendsMarkers = new HashMap<String, Marker>();
@@ -219,7 +220,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         for (UserLocation friend : friendLocations) {
-            String link = "http://192.168.5.93:8080/android_connect/get_color.php?user=" + friend.getUsername();
+            String link = address+"/android_connect/get_color.php?user=" + friend.getUsername();
             DBCheckUser checkUser = new DBCheckUser(link);
             checkUser.execute();
             while (checkUser.getResult() == null) ;
@@ -318,9 +319,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             case R.id.nav_friends:
                 fragmentClass = MyFriendsActivity.class;
                 break;
-            case R.id.nav_groups:
-                fragmentClass = GroupsActivity.class;
-                break;
+
             case R.id.nav_map:
                 fragmentClass = MapsActivity.class;
                 break;
@@ -347,6 +346,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         editor.apply();
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     private Location getLastKnownLocation() {
         List<String> providers = locationManager.getProviders(true);
         Location bestLocation = null;

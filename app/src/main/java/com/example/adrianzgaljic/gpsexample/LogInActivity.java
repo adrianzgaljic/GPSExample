@@ -23,6 +23,7 @@ public class LogInActivity  extends Activity{
 
     private  ProgressBar spinner;
     public static final String TAG = "logIspis";
+    public static String address="http://192.168.5.84:80";
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -58,7 +59,7 @@ public class LogInActivity  extends Activity{
                     return;
                 }
                 spinner.setVisibility(View.VISIBLE);
-                String link = "http://192.168.5.93:8080/android_connect/login.php?user="+username+"&pass="+pass;
+                String link = address+"/android_connect/login.php?user="+username+"&pass="+pass;
                 DBCheckUser checkUser = new DBCheckUser(link);
                 checkUser.execute();
                 while (checkUser.getResult()==null);
@@ -67,7 +68,7 @@ public class LogInActivity  extends Activity{
                     Toast.makeText(LogInActivity.this,"Unable to connect server",Toast.LENGTH_SHORT).show();
                 }
                 if (checkUser.getResult().equals("1")){
-                    link = "http://192.168.5.93:8080/android_connect/get_color.php?user="+username;
+                    link = address+"/android_connect/get_color.php?user="+username;
                     checkUser = new DBCheckUser(link);
                     checkUser.execute();
                     while (checkUser.getResult()==null);
@@ -108,7 +109,7 @@ public class LogInActivity  extends Activity{
 
     public static ArrayList<String> getFriendRequest(String username){
         ArrayList<String> requests = new ArrayList<String>();
-        String link = "http://192.168.5.93:8080/android_connect/find_requests.php?user=" + username;
+        String link = address+"/android_connect/find_requests.php?user=" + username;
         DBCheckUser checkUser = new DBCheckUser(link);
         checkUser.execute();
         while (checkUser.getResult() == null) ;
@@ -121,7 +122,7 @@ public class LogInActivity  extends Activity{
 
     public static ArrayList<String> getSentFriendRequest(String username){
         ArrayList<String> requests = new ArrayList<String>();
-        String link = "http://192.168.5.93:8080/android_connect/get_sent_requests.php?user=" + username;
+        String link = address+"/android_connect/get_sent_requests.php?user=" + username;
         DBCheckUser checkUser = new DBCheckUser(link);
         checkUser.execute();
         while (checkUser.getResult() == null) ;
@@ -134,7 +135,7 @@ public class LogInActivity  extends Activity{
 
     public static ArrayList<String> getFriends(String username){
         ArrayList<String> friends = new ArrayList<String>();
-        String link = "http://192.168.5.93:8080/android_connect/get_friends.php?user=" + username;
+        String link = address+"/android_connect/get_friends.php?user=" + username;
         DBCheckUser checkUser = new DBCheckUser(link);
         checkUser.execute();
         while (checkUser.getResult() == null) ;
@@ -148,7 +149,7 @@ public class LogInActivity  extends Activity{
     public static ArrayList<UserLocation> getFriendsLocations(String username){
 
         ArrayList<String> friends = new ArrayList<String>();
-        String link = "http://192.168.5.93:8080/android_connect/get_permissions.php?user=" + username;
+        String link = address+"/android_connect/get_permissions.php?user=" + username;
         DBCheckUser checkUser = new DBCheckUser(link);
         checkUser.execute();
         while (checkUser.getResult() == null) ;
@@ -157,7 +158,7 @@ public class LogInActivity  extends Activity{
 
         ArrayList<UserLocation> friendLocations = new ArrayList<UserLocation>();
         for (String user: friends) {
-            link = "http://192.168.5.93:8080/android_connect/get_position.php?user=" + user;
+            link = address+"/android_connect/get_position.php?user=" + user;
             checkUser = new DBCheckUser(link);
             checkUser.execute();
             while (checkUser.getResult() == null) ;

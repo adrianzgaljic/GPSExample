@@ -33,6 +33,7 @@ public class FriendProfile extends AppCompatActivity {
     private String action;
     private Toolbar toolbar;
     private DrawerLayout mDrawer;
+    private String address="http://192.168.5.84:80";
 
 
 
@@ -73,7 +74,7 @@ public class FriendProfile extends AppCompatActivity {
             btnAddFriend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String link = "http://192.168.5.93:8080/android_connect/send_request.php?user="+UserInfo.getUsername()+"&friend="+user;
+                    String link = address+"/android_connect/send_request.php?user="+UserInfo.getUsername()+"&friend="+user;
                     new DBCreateUser(link).execute();
                     UserInfo.getSentRequests().add(user);
                     Toast.makeText(FriendProfile.this,"Friend request sent",Toast.LENGTH_SHORT).show();
@@ -86,7 +87,7 @@ public class FriendProfile extends AppCompatActivity {
                             btnAddFriend.setVisibility(View.INVISIBLE);
                             btnReject.setVisibility(View.INVISIBLE);
                             //TODO
-                            String link = "http://192.168.5.93:8080/android_connect/delete_sent_request.php?user="+UserInfo.getUsername()+"&friend="+user;
+                            String link = address+"/android_connect/delete_sent_request.php?user="+UserInfo.getUsername()+"&friend="+user;
                             new DBCreateUser(link).execute();
                             UserInfo.getSentRequests().remove(user);
                             Toast.makeText(FriendProfile.this,"Friend request removed",Toast.LENGTH_SHORT).show();
@@ -101,7 +102,7 @@ public class FriendProfile extends AppCompatActivity {
                 public void onClick(View v) {
                     btnAddFriend.setVisibility(View.INVISIBLE);
                     btnReject.setVisibility(View.INVISIBLE);
-                    String link = "http://192.168.5.93:8080/android_connect/delete_request.php?user="+UserInfo.getUsername()+"&friend="+user;
+                    String link = address+"/android_connect/android_connect/delete_request.php?user="+UserInfo.getUsername()+"&friend="+user;
                     new DBCreateUser(link).execute();
                     UserInfo.getFriendRequests().remove(user);
                     UserInfo.getRejectedFriends().add(user);
@@ -112,7 +113,7 @@ public class FriendProfile extends AppCompatActivity {
             btnAddFriend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String link = "http://192.168.5.93:8080/android_connect/make_friends.php?user="+UserInfo.getUsername()+"&friend="+user;
+                    String link = address+"/android_connect/make_friends.php?user="+UserInfo.getUsername()+"&friend="+user;
                     new DBCreateUser(link).execute();
                     link = "http://192.168.5.93:8080/android_connect/delete_request.php?user="+UserInfo.getUsername()+"&friend="+user;
                     new DBCreateUser(link).execute();
@@ -132,7 +133,7 @@ public class FriendProfile extends AppCompatActivity {
                 public void onClick(View v) {
                     btnReject.setVisibility(View.INVISIBLE);
                     //TODO
-                    String link = "http://192.168.5.93:8080/android_connect/end_frendship.php?user=" + UserInfo.getUsername() + "&friend=" + user;
+                    String link = address+"/android_connect/end_frendship.php?user=" + UserInfo.getUsername() + "&friend=" + user;
                     new DBCreateUser(link).execute();
                     UserInfo.getFriends().remove(user);
                     Toast.makeText(FriendProfile.this, "Friend removed", Toast.LENGTH_SHORT).show();
@@ -148,7 +149,7 @@ public class FriendProfile extends AppCompatActivity {
                     btnAddFriend.setVisibility(View.INVISIBLE);
                     btnReject.setVisibility(View.INVISIBLE);
                     //TODO
-                    String link = "http://192.168.5.93:8080/android_connect/delete_sent_request.php?user="+UserInfo.getUsername()+"&friend="+user;
+                    String link = address+"/android_connect/delete_sent_request.php?user="+UserInfo.getUsername()+"&friend="+user;
                     new DBCreateUser(link).execute();
                     UserInfo.getSentRequests().remove(user);
                     Toast.makeText(FriendProfile.this,"Friend request removed",Toast.LENGTH_SHORT).show();

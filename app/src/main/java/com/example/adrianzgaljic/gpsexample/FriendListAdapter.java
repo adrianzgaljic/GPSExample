@@ -62,7 +62,7 @@ public class FriendListAdapter extends BaseAdapter implements ListAdapter {
             @Override
             public void onClick(View v) {
                 String selectedValue = list.get(position);
-                String link = "http://192.168.5.93:8080/android_connect/get_color.php?user=" + selectedValue;
+                String link = "http://192.168.5.84:80/android_connect/get_color.php?user=" + selectedValue;
                 DBCheckUser checkUser = new DBCheckUser(link);
                 checkUser.execute();
                 while (checkUser.getResult() == null) ;
@@ -114,11 +114,11 @@ public class FriendListAdapter extends BaseAdapter implements ListAdapter {
             public void onClick(View v) {
                 Log.i(MapsActivity.TAG, "lista..." + list.get(position) + " " + swtchFriend.isChecked());
                 if (swtchFriend.isChecked()) {
-                    String link = "http://192.168.5.93:8080/android_connect/add_permission.php?user=" + UserInfo.getUsername() + "&friend=" + list.get(position);
+                    String link = "http://192.168.5.84:80/android_connect/add_permission.php?user=" + UserInfo.getUsername() + "&friend=" + list.get(position);
                     new DBCreateUser(link).execute();
 
                 } else {
-                    String link = "http://192.168.5.93:8080/android_connect/remove_permission.php?user=" + UserInfo.getUsername() + "&friend=" + list.get(position);
+                    String link = "http://192.168.5.84:80/android_connect/remove_permission.php?user=" + UserInfo.getUsername() + "&friend=" + list.get(position);
                     new DBCreateUser(link).execute();
                 }
             }
@@ -150,7 +150,7 @@ public class FriendListAdapter extends BaseAdapter implements ListAdapter {
     public static ArrayList<String> getEnabledFriends(String username) {
 
         ArrayList<String> friends = new ArrayList<>();
-        String link = "http://192.168.5.93:8080/android_connect/get_allowed_friends.php?user=" + username;
+        String link = "http://192.168.5.84:80/android_connect/get_allowed_friends.php?user=" + username;
         DBCheckUser checkUser = new DBCheckUser(link);
         checkUser.execute();
         while (checkUser.getResult() == null) ;

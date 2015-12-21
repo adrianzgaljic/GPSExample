@@ -17,6 +17,8 @@ import java.util.ArrayList;
  * Created by adrianzgaljic on 17/10/15.
  */
 public class RegistrationActivity  extends Activity{
+
+    public static String address="http://192.168.5.84:80";
     @Override
     public void onCreate(Bundle savedInstanceState){
 
@@ -53,7 +55,7 @@ public class RegistrationActivity  extends Activity{
                     Toast.makeText(RegistrationActivity.this,"Passwords do not match",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String link = "http://192.168.5.93:8080/android_connect/check_user.php?user="+username;
+                String link = address+"/android_connect/check_user.php?user="+username;
                 DBCheckUser checkUser = new DBCheckUser(link);
                 checkUser.execute();
                 while (checkUser.getResult()==null);
@@ -64,7 +66,7 @@ public class RegistrationActivity  extends Activity{
                     Toast.makeText(RegistrationActivity.this,"Username allready exists",Toast.LENGTH_SHORT).show();
                     return;
                 } else if (checkUser.getResult().equals("0")){
-                    link = "http://192.168.5.93:8080/android_connect/create_user.php?user="+username+"&pass="+pass;
+                    link = address+"/android_connect/create_user.php?user="+username+"&pass="+pass;
                     new DBCreateUser(link).execute();
                     UserInfo.setUsername(username);
                     UserInfo.setColor(Color.BLUE);

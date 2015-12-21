@@ -21,10 +21,6 @@
             android:icon="@drawable/ic_people_outline_black_36dp"
             android:title="My friends" />
 
-        <item
-            android:id="@+id/nav_groups"
-            android:icon="@drawable/ic_group_black_36dp"
-            android:title="My groups" />
 
         <item
             android:id="@+id/nav_map"

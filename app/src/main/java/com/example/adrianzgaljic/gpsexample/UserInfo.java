@@ -20,19 +20,12 @@ public class UserInfo {
     private static ArrayList<String> friends = new ArrayList<String>();
     private static ArrayList<String> sentRequests = new ArrayList<String>();
     private static ArrayList<String> rejectedFriends = new ArrayList<String>();
-    private static ArrayList<Group> groups = new ArrayList<>();
+
 
     public static void setUserInfo(UserInfo userInfo) {
         UserInfo.userInfo = userInfo;
     }
 
-    public static ArrayList<Group> getGroups() {
-        return groups;
-    }
-
-    public static void setGroups(ArrayList<Group> groups) {
-        UserInfo.groups = groups;
-    }
 
 
     public static ArrayList<String> getRejectedFriends() {

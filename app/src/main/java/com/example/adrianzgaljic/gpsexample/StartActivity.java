@@ -21,6 +21,7 @@ public class StartActivity extends Activity {
         SharedPreferences.Editor editor = prefs.edit();
         Intent intent;
         String username = prefs.getString("username","");
+        String address="http://192.168.5.84:80";
 
         if (username.equals(""))
         {
@@ -29,7 +30,7 @@ public class StartActivity extends Activity {
         }
         else
         {
-            String link = "http://192.168.5.93:8080/android_connect/get_color.php?user="+username;
+            String link = address+"/android_connect/get_color.php?user="+username;
             DBCheckUser checkUser = new DBCheckUser(link);
             checkUser.execute();
             while (checkUser.getResult()==null);

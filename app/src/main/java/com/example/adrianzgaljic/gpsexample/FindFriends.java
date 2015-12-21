@@ -64,7 +64,7 @@ public class FindFriends extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedValue = adapter.getItem(position);
-                String link = "http://192.168.5.93:8080/android_connect/get_color.php?user="+selectedValue;
+                String link = "http://192.168.5.84:80/android_connect/get_color.php?user="+selectedValue;
                 DBCheckUser checkUser = new DBCheckUser(link);
                 checkUser.execute();
                 while (checkUser.getResult()==null);
@@ -106,7 +106,7 @@ public class FindFriends extends AppCompatActivity {
                 if (query.equals("")) {
                     Toast.makeText(FindFriends.this, "Empty input", Toast.LENGTH_SHORT);
                 } else {
-                    String link = "http://192.168.5.93:8080/android_connect/find_users.php?user=" + query;
+                    String link = "http://192.168.5.84:80/android_connect/find_users.php?user=" + query;
                     DBCheckUser checkUser = new DBCheckUser(link);
                     checkUser.execute();
                     while (checkUser.getResult() == null) ;
