@@ -55,7 +55,7 @@ public class RegistrationActivity  extends Activity{
                     Toast.makeText(RegistrationActivity.this,"Passwords do not match",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String link = address+"/android_connect/check_user.php?user="+username;
+                String link = Configuration.address+"check_user.php?user="+username;
                 DBCheckUser checkUser = new DBCheckUser(link);
                 checkUser.execute();
                 while (checkUser.getResult()==null);
@@ -66,8 +66,9 @@ public class RegistrationActivity  extends Activity{
                     Toast.makeText(RegistrationActivity.this,"Username allready exists",Toast.LENGTH_SHORT).show();
                     return;
                 } else if (checkUser.getResult().equals("0")){
-                    link = address+"/android_connect/create_user.php?user="+username+"&pass="+pass;
-                    new DBCreateUser(link).execute();
+                    link = Configuration.address+"create_user.php?user="+username+"&pass="+pass;
+                    //new DBCreateUser(link).execute();
+                    new Connect().connect(link);
                     UserInfo.setUsername(username);
                     UserInfo.setColor(Color.BLUE);
                     UserInfo.setProfilePicture(BitmapFactory.decodeResource(RegistrationActivity.this.getResources(),

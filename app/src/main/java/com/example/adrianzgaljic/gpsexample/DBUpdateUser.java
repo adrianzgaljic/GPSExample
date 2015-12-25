@@ -59,7 +59,7 @@ public class DBUpdateUser extends AsyncTask<String,Void,String> {
 
 
             HttpClient client = new DefaultHttpClient();
-            HttpPost post = new HttpPost("http://192.168.5.93:8080/android_connect/update_user.php?user=ado&color=red");
+            HttpPost post = new HttpPost(Configuration.address+"update_user.php?user=ado&color=red");
             pairs.add(new BasicNameValuePair("user",username ));
             pairs.add(new BasicNameValuePair("color",color ));
 

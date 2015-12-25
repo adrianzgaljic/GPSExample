@@ -220,7 +220,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         for (UserLocation friend : friendLocations) {
-            String link = address+"/android_connect/get_color.php?user=" + friend.getUsername();
+            String link = Configuration.address+"get_color.php?user=" + friend.getUsername();
             DBCheckUser checkUser = new DBCheckUser(link);
             checkUser.execute();
             while (checkUser.getResult() == null) ;

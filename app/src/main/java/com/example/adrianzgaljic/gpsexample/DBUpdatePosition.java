@@ -61,7 +61,7 @@ public class DBUpdatePosition extends AsyncTask<String,Void,String> {
 
 
             HttpClient client = new DefaultHttpClient();
-            HttpPost post = new HttpPost("http://192.168.5.84:80/android_connect/update_position.php");
+            HttpPost post = new HttpPost(Configuration.address+"update_position.php");
             pairs.add(new BasicNameValuePair("user",username ));
             pairs.add(new BasicNameValuePair("long",Double.toString(longitude)));
             pairs.add(new BasicNameValuePair("lat",Double.toString(latitude) ));

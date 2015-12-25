@@ -30,7 +30,7 @@ public class StartActivity extends Activity {
         }
         else
         {
-            String link = address+"/android_connect/get_color.php?user="+username;
+            String link = Configuration.address+"get_color.php?user="+username;
             DBCheckUser checkUser = new DBCheckUser(link);
             checkUser.execute();
             while (checkUser.getResult()==null);
