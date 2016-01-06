@@ -5,7 +5,7 @@ package com.example.adrianzgaljic.gpsexample;
  */
 public class Configuration {
 
-    public static final String address = "http://192.168.5.84:80/android_connect/";
+    public static final String address = "http://0.129.71.172:80/android_connect/";
     public static final String TAG = "logIspis";
 
 }

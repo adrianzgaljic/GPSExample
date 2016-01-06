@@ -18,7 +18,6 @@ import java.util.ArrayList;
  */
 public class RegistrationActivity  extends Activity{
 
-    public static String address="http://192.168.5.84:80";
     @Override
     public void onCreate(Bundle savedInstanceState){
 
@@ -35,6 +34,7 @@ public class RegistrationActivity  extends Activity{
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String username = etUsername.getText().toString();
                 String pass = etPass.getText().toString();
                 String confirmPass = etConfirmPass.getText().toString();
@@ -55,9 +55,11 @@ public class RegistrationActivity  extends Activity{
                     Toast.makeText(RegistrationActivity.this,"Passwords do not match",Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 String link = Configuration.address+"check_user.php?user="+username;
                 DBCheckUser checkUser = new DBCheckUser(link);
                 checkUser.execute();
+
                 while (checkUser.getResult()==null);
                 if (checkUser.getResult().equals("false")){
                     Toast.makeText(RegistrationActivity.this,"Unable to connect server",Toast.LENGTH_SHORT).show();
