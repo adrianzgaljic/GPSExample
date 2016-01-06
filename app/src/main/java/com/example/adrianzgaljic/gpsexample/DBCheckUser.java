@@ -87,6 +87,7 @@ public class DBCheckUser extends AsyncTask<String,Void,String> {
 
         try {
             URL url = new URL(link);
+            Log.i("checkuser","check..."+link);
             HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
             urlConn.connect();
             if (urlConn.getResponseCode() == HttpURLConnection.HTTP_OK){

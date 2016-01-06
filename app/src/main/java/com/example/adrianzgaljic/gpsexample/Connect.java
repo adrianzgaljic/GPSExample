@@ -2,6 +2,7 @@ package com.example.adrianzgaljic.gpsexample;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,7 +31,7 @@ public class Connect extends AppCompatActivity {
                 try {
 
                     url= new URL(urlStr);
-
+                    Log.i("glupost", "url..." + urlStr);
                     URLConnection yc = url.openConnection();
                     BufferedReader in = new BufferedReader(
                             new InputStreamReader(
